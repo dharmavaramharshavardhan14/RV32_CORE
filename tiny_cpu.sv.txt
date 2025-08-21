@@ -1,0 +1,21 @@
+`timescale 1ns/1ps
+
+module rv32i_uart_soc_tb;
+    reg clk=0, rst=1, uart_rx_i=1;
+    wire uart_tx_o;
+
+    // DUT
+    rv32i_uart_soc DUT(.clk(clk),.rst(rst),.uart_rx_i(uart_rx_i),.uart_tx_o(uart_tx_o));
+
+    // clock
+    always #10 clk = ~clk; // 50MHz
+
+    initial begin
+        $dumpfile("soc.vcd");
+        $dumpvars(0,DUT);
+
+        #100 rst=0;
+        // TODO: UART stimulus to load program (can be expanded)
+        #1000 $finish;
+    end
+endmodule
